@@ -12,7 +12,20 @@ module.exports = {
     // 热更新，热更新不是刷新
     new webpack.HotModuleReplacementPlugin()
   ],
-
+  resolve: {
+    extensions: [".js"],
+    alias: {} //配置别名可以加快webpack查找模块的速度
+  },
+  module: {
+    // 多个loader是有顺序要求的，从右往左写，因为转换的时候是从右往左转换的
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /(node_modules|bower_components)/,
+        loader: "babel-loader"
+      }
+    ]
+  },
   devServer: {
     proxy: {
       "/guardian": {
