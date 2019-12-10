@@ -1,86 +1,70 @@
-import _ from "lodash";
 import fly from "flyio";
-import urlTool from "url";
-import qs from "querystring";
 import EngineWrapper from "flyio/dist/npm/engine-wrapper";
-import sort from "../lib/sort";
-import crypto from "../lib/crypto";
-import transformHeaders from "../lib/transformHeaders";
-const FormHeader = "application/x-www-form-urlencoded";
+import _ from "lodash";
+import signature from "../lib/signature";
+// import engineTypes from "../lib/engineTypes";
+const next = res => {
+  res
+    .then(response => response.json())
+    .then(res => {
+      responseCallback(res);
+    });
+};
 // 切换fly engine为真正的XMLHttpRequest
-export default ({
-  appkey = "25396816",
-  appsecret = "ba09305bef13bf8c17ace9987c66326f",
-  engineType = "XMLHttpRequest"
-} = {}) => {
+const rsa = (
+  options = {
+    appkey: "25396816",
+    appsecret: "ba09305bef13bf8c17ace9987c66326f",
+    engineType: "XMLHttpRequest",
+    adapter: "fetch"
+  }
+) => {
   fly.engine = XMLHttpRequest;
-  var engine = EngineWrapper(function(request, responseCallback) {
-    try {
-      const { method, headers, url } = request;
-      const { Accept } = headers;
 
-      const urlParsed = urlTool.parse(url, true),
-        queryObject = urlParsed.query;
-      let contentMD5 = "",
-        query = qs.stringify(sort(queryObject));
-      //如果没有content-type 默认加上application/json
-      if (!headers["Content-Type"]) {
-        headers["Content-Type"] = "application/json";
-      }
-      //如果不是Form提交 对content签名
-      if (request.body && headers["Content-Type"].indexOf(FormHeader) === -1) {
-        contentMD5 = crypto.md5Content(request.body);
-        headers["Content-MD5"] = contentMD5;
-      } else {
-        //如果是Form表单提交
-        const formObject = request.body;
-        if (_.isObject(formObject)) {
-          _.map(formObject, (value, key) => {
-            queryObject[key] = value;
-          });
-        }
-        if (_.isString(formObject)) {
-          query += "&" + formObject;
-        }
-      }
-      const urlPath = _.isEmpty(query)
-        ? urlParsed.pathname
-        : urlParsed.pathname + "?" + query;
-      const ContentType = headers["Content-Type"]
-        ? headers["Content-Type"]
-        : "";
+  var engine = EngineWrapper((request, responseCallback) => {
+    const req = signature(request, options);
+    switch (options.adapter) {
+      case "fetch":
+        next(fetch(req.url, req));
+        break;
+      case "wx":
+        wx.request({
+          method: req.method,
+          url: req.url,
+          header: req.headers,
+          dataType: req.dataType || "text",
+          data: req.body || {},
+          success(res) {
+            responseCallback({
+              statusCode: res.statusCode,
+              responseText: res.data,
+              headers: res.header,
+              statusMessage: res.errMsg
+            });
+          },
+          fail(res) {
+            responseCallback({
+              statusCode: res.statusCode || 0,
+              statusMessage: res.errMsg
+            });
+          }
+        });
+        break;
 
-      headers["X-Gw-Key"] = appkey;
-      headers["X-Gw-Timestamp"] = _.now();
-      headers["X-Gw-Nonce"] = _.random(1000000000000, 9999999999999);
-
-      const stringToSign = `${method}\n${Accept}\n${contentMD5}\n${ContentType}\n\n${
-        transformHeaders(headers).transformHeader
-      }${decodeURIComponent(urlPath)}`;
-      fly.config.headers = {
-        "X-Gw-Signature": crypto.sign(stringToSign, appsecret),
-        "X-Gw-Signature-Headers": transformHeaders(headers).transformHeaderKeys
-      };
-    } catch (error) {
-      console.log("error", error);
+      default:
+        next(fetch(req.url, req));
+        break;
     }
-    // //发起真正的ajax请求
-    fly
-      .request(request.url, request.data, request)
-      .then(res => {
-        responseCallback({
-          statusCode: res.engine.status,
-          responseText: res.engine.responseText,
-          statusMessage: res.engine.statusText
-        });
-      })
-      .catch(err => {
-        responseCallback({
-          statusCode: err.status,
-          statusMessage: err.message
-        });
-      });
   });
   //覆盖默认
-  XMLHttpRequest = engine;
+  if (options.engineType === "fly") {
+    fly.engine = engine;
+  } else {
+    XMLHttpRequest = engine;
+  }
 };
+if (typeof window !== "undefined") {
+  console.log("window");
+  window.gc_rsa = rsa;
+}
+export default rsa;

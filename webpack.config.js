@@ -29,24 +29,10 @@ module.exports = {
   devServer: {
     proxy: {
       "/guardian": {
-        target: "http://192.168.0.73:8111",
+        target: "http://gw.ihotel.cn",
         changeOrigin: true,
         pathRewrite: {
           "^/guardian": "/guardian"
-        }
-      },
-      "/s": {
-        target: "http://192.168.2.172:2222",
-        changeOrigin: true,
-        pathRewrite: {
-          "^/s": "/s"
-        }
-      },
-      "/mock": {
-        target: "https://yapi.ihotel.cn",
-        changeOrigin: true,
-        pathRewrite: {
-          "^/mock": "/mock"
         }
       }
     },
