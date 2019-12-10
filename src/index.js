@@ -3,7 +3,7 @@ import EngineWrapper from "flyio/dist/npm/engine-wrapper";
 import _ from "lodash";
 import signature from "../lib/signature";
 // import engineTypes from "../lib/engineTypes";
-const next = res => {
+const next = (res, responseCallback) => {
   res
     .then(response => response.json())
     .then(res => {
@@ -15,8 +15,8 @@ const rsa = (
   options = {
     appkey: "25396816",
     appsecret: "ba09305bef13bf8c17ace9987c66326f",
-    engineType: "XMLHttpRequest",
-    adapter: "fetch"
+    engineType: "XMLHttpRequest", //底层请求库
+    adapter: "fetch" //请求适配器
   }
 ) => {
   fly.engine = XMLHttpRequest;
@@ -24,8 +24,8 @@ const rsa = (
   var engine = EngineWrapper((request, responseCallback) => {
     const req = signature(request, options);
     switch (options.adapter) {
-      case "fetch":
-        next(fetch(req.url, req));
+      case "jquery":
+        next(jQuery(req.url, req), responseCallback);
         break;
       case "wx":
         wx.request({
@@ -52,7 +52,7 @@ const rsa = (
         break;
 
       default:
-        next(fetch(req.url, req));
+        next(fetch(req.url, req), responseCallback);
         break;
     }
   });

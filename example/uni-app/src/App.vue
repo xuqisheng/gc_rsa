@@ -1,5 +1,5 @@
 <script>
-import fly from "flyio";
+import index from "./api/index.js";
 
 export default {
   onLaunch: function() {
@@ -37,11 +37,7 @@ export default {
     // #endif
   },
   onShow: function() {
-    console.log("====================================");
-    console.log("aa");
-    console.log("====================================");
-    fly.get("http://gw.ihotel.cn/guardian/s/weather?city=呼伦贝尔&b=ddd");
-    console.log("App Show");
+    index.getIndex();
   },
   onHide: function() {
     console.log("App Hide");
