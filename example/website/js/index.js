@@ -1,18 +1,18 @@
-// // 普遍get
-// $.ajax({
-//   url: "/guardian/s/weather?city=呼伦贝尔&b=ddd",
-//   method: "get",
-//   data: { A: "a" },
-//   headers: {
-//     //请求头
-//     Aaa: "bbb",
-//     ccc: "dddd"
-//   }
-// }).then(res => {
-//   console.log("================res====================");
-//   console.log(res);
-//   console.log("====================================");
-// });
+// 普遍get
+$.ajax({
+  url: "/guardian/s/weather?city=呼伦贝尔&b=ddd",
+  method: "get",
+  data: { A: "a" },
+  headers: {
+    //请求头
+    Aaa: "bbb",
+    ccc: "dddd"
+  }
+}).then(res => {
+  console.log("================res====================");
+  console.log(res);
+  console.log("====================================");
+});
 
 // $.ajax({
 //   type: "POST",
