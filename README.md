@@ -15,9 +15,25 @@ npm install gc_rsa
 ```javascript
 import gc_rsa from "gc_rsa";
 
+//普通示例
 gc_rsa({
   appkey: "124",
-  appsecret: "345"
+  appsecret: "345",
+});
+
+//网站示例
+gc_rsa({
+  appkey: "124",
+  appsecret: "345",
+  adapter:"jquery"
+});
+
+//微信小程序示例
+gc_rsa({
+  appkey: "124",
+  appsecret: "345",
+  engineType:"fly",
+  adapter:"wx"
 });
 ```
 
