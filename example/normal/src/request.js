@@ -14,10 +14,11 @@ Fly.interceptors.request.use(req => {
 Fly.interceptors.response.use(
   (response, promise) => {
     //console.log(response)
-    window.console.log("closeLoading");
+    window.console.log("response", response);
     return promise.resolve(response.data);
   },
   (err, promise) => {
+    window.console.log("Err", err);
     window.console.log("closeLoading");
     return promise.resolve();
   }

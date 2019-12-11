@@ -10,7 +10,8 @@ import fly from "flyio";
 export default {
   async mounted() {
     window.console.log("1");
-    fly.get("/guardian/s/weather?city=呼伦贝尔");
+    const res = await fly.get("/guardian/s/weather?city=呼伦贝尔");
+    window.console.log("res", res);
     // post("/guardian/s/weather?city=呼伦贝尔");
   }
 };
