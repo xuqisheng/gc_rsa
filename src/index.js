@@ -2,7 +2,7 @@ import fly from "flyio";
 import EngineWrapper from "flyio/dist/npm/engine-wrapper";
 import _ from "lodash";
 import signature from "./lib/signature";
-import { uniAdapter, wxAdapter, jqueryAdapter, fetchAdapter } from "./adapter";
+import adapter from "./adapter";
 
 // 主函数
 const rsa = (
@@ -16,20 +16,13 @@ const rsa = (
   fly.engine = XMLHttpRequest;
 
   var engine = EngineWrapper((request, responseCallback) => {
-    const req = signature(request, options);
-    switch (options.adapter) {
-      case "jquery":
-        jqueryAdapter(req, responseCallback);
-        break;
-      case "wx":
-        wxAdapter(req, responseCallback);
-        break;
-      case "uni":
-        uniAdapter(req, responseCallback);
-        break;
-      default:
-        fetchAdapter(req, responseCallback);
-        break;
+    try {
+      adapter[`${options.adapter}Adapter`](
+        signature(request, options),
+        responseCallback
+      );
+    } catch (error) {
+      console.warn(error);
     }
   });
   //覆盖默认
