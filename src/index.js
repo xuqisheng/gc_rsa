@@ -17,7 +17,7 @@ const rsa = (
 
   var engine = EngineWrapper((request, responseCallback) => {
     try {
-      adapter[`${options.adapter}Adapter`](
+      adapter[`${options.adapter ? options.adapter : "fetch"}Adapter`](
         signature(request, options),
         responseCallback
       );
