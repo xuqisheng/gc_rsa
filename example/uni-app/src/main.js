@@ -10,7 +10,7 @@ gc_rsa({
   appkey: "25396816",
   appsecret: "ba09305bef13bf8c17ace9987c66326f",
   engineType: "fly",
-  adapter: "wx"
+  adapter: "uni"
 });
 // import "./api/request";
 Vue.config.productionTip = false;

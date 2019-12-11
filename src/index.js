@@ -1,16 +1,10 @@
 import fly from "flyio";
 import EngineWrapper from "flyio/dist/npm/engine-wrapper";
 import _ from "lodash";
-import signature from "../lib/signature";
-// import engineTypes from "../lib/engineTypes";
-const next = (res, responseCallback) => {
-  res
-    .then(response => response.json())
-    .then(res => {
-      responseCallback(res);
-    });
-};
-// 切换fly engine为真正的XMLHttpRequest
+import signature from "./lib/signature";
+import { uniAdapter, wxAdapter, jqueryAdapter, fetchAdapter } from "./adapter";
+
+// 主函数
 const rsa = (
   options = {
     appkey: "25396816",
@@ -25,34 +19,16 @@ const rsa = (
     const req = signature(request, options);
     switch (options.adapter) {
       case "jquery":
-        next(jQuery(req.url, req), responseCallback);
+        jqueryAdapter(req, responseCallback);
         break;
       case "wx":
-        wx.request({
-          method: req.method,
-          url: req.url,
-          header: req.headers,
-          dataType: req.dataType || "text",
-          data: req.body || {},
-          success(res) {
-            responseCallback({
-              statusCode: res.statusCode,
-              responseText: res.data,
-              headers: res.header,
-              statusMessage: res.errMsg
-            });
-          },
-          fail(res) {
-            responseCallback({
-              statusCode: res.statusCode || 0,
-              statusMessage: res.errMsg
-            });
-          }
-        });
+        wxAdapter(req, responseCallback);
         break;
-
+      case "uni":
+        uniAdapter(req, responseCallback);
+        break;
       default:
-        next(fetch(req.url, req), responseCallback);
+        fetchAdapter(req, responseCallback);
         break;
     }
   });
