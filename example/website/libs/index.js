@@ -3,6 +3,7 @@ $.ajax({
   url: "/guardian/s/weather?city=呼伦贝尔&b=ddd",
   method: "get",
   data: { A: "a" },
+  dataType: "json",
   headers: {
     //请求头
     Aaa: "bbb",
@@ -27,17 +28,19 @@ $.ajax({
 // });
 
 // // 普通json
-
-// axios({
-//   url: "/guardian/s/weather?city=呼伦贝尔",
-//   method: "post",
-//   data: JSON.stringify({ a: "b" }),
-//   headers: {
-//     //请求头
-//     test: "test",
-//     "Content-Type": "application/json"
-//   }
-// });
+console.log("====================================");
+console.log("aaa");
+console.log("====================================");
+axios({
+  url: "/guardian/s/weather?city=呼伦贝尔",
+  method: "get",
+  data: JSON.stringify({ a: "b" }),
+  headers: {
+    //请求头
+    test: "test",
+    "Content-Type": "application/json"
+  }
+});
 // axios({
 //   url: "/guardian/s/weather?city=呼伦贝尔",
 //   method: "post",

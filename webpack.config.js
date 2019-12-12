@@ -2,6 +2,10 @@ const path = require("path");
 const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin"); //引入html-webpack-plugin
 module.exports = {
+  output: {
+    filename: "main.js",
+    path: __dirname + "/example/website/libs"
+  },
   plugins: [
     // 对应的插件
     new HtmlWebpackPlugin({

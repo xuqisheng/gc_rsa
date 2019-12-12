@@ -9,15 +9,12 @@
   </head>
   <body></body>
   <script>
-    console.log("====================================");
-    console.log("jquery");
-    console.log("====================================");
     gc_rsa({
       appkey: "25396816",
       appsecret: "ba09305bef13bf8c17ace9987c66326f",
-      engineType: "XMLHttpRequest" //底层请求库
-      // adapter: "jquery" //请求适配器
+      // engineType: "fly", //底层请求库
+      adapter: "fly" //请求适配器
     });
   </script>
-  <script src="./js/index.js"></script>
+  <script src="./libs/index.js"></script>
 </html>

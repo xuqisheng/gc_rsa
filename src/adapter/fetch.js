@@ -1,6 +1,6 @@
 import _ from "lodash";
 
-export default (req, responseCallback) => {
+export default (req, responseCallback, resType) => {
   fetch(req.url, req)
     .then(response => response.json())
     .then(res => {

@@ -11,7 +11,7 @@ export default {
   async mounted() {
     window.console.log("1");
     const res = await fly.get("/guardian/s/weather?city=呼伦贝尔");
-    window.console.log("res", res);
+    window.console.log(res);
     // post("/guardian/s/weather?city=呼伦贝尔");
   }
 };

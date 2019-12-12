@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+    <script src="https://cdn.bootcss.com/jquery/1.12.2/jquery.js"></script>
+    <script src="https://cdn.bootcss.com/axios/0.19.0-beta.1/axios.js"></script>
+  </head>
+  <body><script type="text/javascript" src="main.js"></script></body>
+  <script>
+    gc_rsa();
+    // 普遍get
+    // $.ajax({
+    //   url: "/guardian/s/weather?city=呼伦贝尔&b=ddd",
+    //   method: "get",
+    //   data: { A: "a" },
+    //   headers: {
+    //     //请求头
+    //     Aaa: "bbb",
+    //     Date: new Date()
+    //   }
+    // }).then(res => {
+    //   console.log("================res====================");
+    //   console.log(res);
+    //   console.log("====================================");
+    // });
+
+    // // 普通json
+    // // var data = { A: "b" };
+    $.ajax({
+      type: "POST",
+      dataType: "json",
+      contentType: "application/json",
+      data: { a: "b" },
+      url: "/guardian/s/weather?city=呼伦贝尔",
+      success: function(json, textStatus, xhr) {
+        console.log(json);
+      },
+      error: function(xhr, textStatus, errorThrown) {}
+    });
+    // axios({
+    //   url: "/guardian/s/weather?city=呼伦贝尔",
+    //   method: "post",
+    //   data: JSON.stringify({ a: "b" }),
+    //   headers: {
+    //     //请求头
+    //     test: "test",
+    //     "Content-Type": "application/json"
+    //   }
+    // });
+    // axios({
+    //   url: "/guardian/s/weather?city=呼伦贝尔",
+    //   method: "post",
+    //   data: { a: "b" },
+    //   headers: {
+    //     //请求头
+    //     test: "test"
+    //   }2
+    // });
+    // form;
+    axios({
+      url: "/guardian/s/weather?city=呼伦贝尔&city=22&A=fff&a=2&g=7&z=ddd",
+      method: "post",
+      data: { a: "b" },
+      headers: {
+        //请求头
+        test: "test",
+        Aaa: "bbb",
+        "Content-Type": "application/x-www-form-urlencoded"
+      }
+    });
+    // $.ajax({
+    //   type: "POST",
+    //   dataType: "json",
+    //   contentType: "application/json",
+    //   data: { a: "b" },
+    //   url: "/guardian/s/weather?city=呼伦贝尔",
+    //   success: function(json, textStatus, xhr) {
+    //     console.log(json);
+    //   },
+    //   error: function(xhr, textStatus, errorThrown) {}
+    // });
+  </script>
+</html>

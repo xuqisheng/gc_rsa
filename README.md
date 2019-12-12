@@ -25,14 +25,14 @@ gc_rsa({
 gc_rsa({
   appkey: "123",
   appsecret: "345",
-  adapter:"jquery"
+  adapter:"fly"
 });
 
 //微信小程序示例
 gc_rsa({
   appkey: "123",
   appsecret: "345",
-  engineType:"fly",
+  engineType:"fly", //如果使用了fly作为请求库
   adapter:"wx"
 });
 
@@ -47,12 +47,12 @@ gc_rsa({
 
 ## 参数说明
 
-| 参数名     | 参数说明     | 默认值         |
-| ---------- | ------------ | -------------- |
-| appkey     | app 唯一标识 | 25396816       |
-| appsecret  | app 秘钥     | 联系管理员     |
-| engineType | 底层请求库   | XMLHttpRequest |
-| adapter    | 请求适配器   | fetch          |
+| 参数名     | 参数说明                      | 默认值     |
+| ---------- | ----------------------------- | ---------- |
+| appkey     | app 唯一标识                  | 25396816   |
+| appsecret  | app 秘钥                      | 联系管理员 |
+| engineType | 是否使用了fly作为底层请求库   | 无         |
+| adapter    | 请求适配器,转换成预期的请求库 | fetch      |
 
 ### engineType
 
@@ -65,7 +65,7 @@ gc_rsa({
 
 | 参数名 | 参数说明                                                           | 默认值 |
 | ------ | ------------------------------------------------------------------ | ------ |
-| jquery | 使用jquery发送网络请求，主要用于兼容老浏览器                       | 否     |
+| fly    | 使用fly发送请求，在未使用fly的程序中使用,与{ engineType:fly}互斥   | 否     |
 | wx     | 使用wx底层发送请求，小程序里面需要配合 { engineType:fly} 进行设置  | 否     |
 | uni    | 使用uni底层发送请求，小程序里面需要配合 { engineType:fly} 进行设置 | 否     |
 
