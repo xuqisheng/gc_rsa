@@ -1,7 +1,8 @@
 const path = require("path");
 const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin"); //引入html-webpack-plugin
-module.exports = {
+
+let webpackConfig = {
   output: {
     filename: "main.js",
     path: __dirname + "/example/website/libs"
@@ -16,6 +17,10 @@ module.exports = {
     // 热更新，热更新不是刷新
     new webpack.HotModuleReplacementPlugin()
   ],
+  externals: {
+    lodash: "lodash",
+    flyio: "flyio"
+  },
   resolve: {
     extensions: [".js"],
     alias: {} //配置别名可以加快webpack查找模块的速度
@@ -48,3 +53,10 @@ module.exports = {
     compress: true //开发服务器是否启动gzip等压缩
   }
 };
+
+if (process.env.NODE_ENV == "analyz") {
+  const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
+    .BundleAnalyzerPlugin;
+  webpackConfig.plugins.push(new BundleAnalyzerPlugin());
+}
+module.exports = webpackConfig;
