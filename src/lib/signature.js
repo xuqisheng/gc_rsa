@@ -48,7 +48,10 @@ const signature = (request, { appkey, appsecret, engineType }) => {
         Accept ? Accept : "*/*"
       }\n${contentMD5}\n${ContentType}\n\n${
         transformHeaders(headers).transformHeader
-      }${decodeURIComponent(urlPath)}`;
+        }${decodeURIComponent(urlPath)}`;
+      console.log("==============", urlPath, "======================");
+      console.log(stringToSign);
+      console.log("==============", urlPath, "======================");
       headers["X-Gw-Signature"] = crypto.sign(stringToSign, appsecret);
       headers["X-Gw-Signature-Headers"] = transformHeaders(
         headers
