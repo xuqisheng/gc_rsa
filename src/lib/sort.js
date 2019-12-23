@@ -3,10 +3,14 @@ export default obj => {
   const sortArr = _.sortBy(Object.keys(obj));
   let returnObect = {};
   _.map(sortArr, key => {
-    if (_.isArray(obj[key])) {
-      returnObect[key] = obj[key][0];
+    if (_.isEmpty(obj[key])) {
+      returnObect[key]=null
     } else {
-      returnObect[key] = obj[key];
+      if (_.isArray(obj[key])) {
+        returnObect[key] = obj[key][0];
+      } else {
+        returnObect[key] = obj[key];
+      }
     }
   });
   return returnObect;

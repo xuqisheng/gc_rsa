@@ -1,4 +1,4 @@
-import qs from "querystring";
+import qs from "qs";
 import _ from "lodash";
 import urlTool from "url";
 import crypto from "./crypto";
@@ -13,8 +13,12 @@ const signature = (request, { appkey, appsecret, engineType }) => {
       const { Accept } = headers;
       const urlParsed = urlTool.parse(url, true),
         queryObject = urlParsed.query;
+    
       let contentMD5 = "",
-        query = qs.stringify(sort(queryObject));
+        query = qs.stringify(sort(queryObject), { strictNullHandling: true });
+      console.log("=============query=======================");
+      console.log(query);
+      console.log('====================================');
       //如果没有content-type 默认加上application/json
       if (!headers["Content-Type"]) {
         headers["Content-Type"] = "application/json";
