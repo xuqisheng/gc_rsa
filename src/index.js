@@ -17,9 +17,19 @@ const rsa = (
 
   var engine = EngineWrapper((request, responseCallback) => {
     try {
+      let flag = false;
+
+      if (options.exclude) {
+        for (let index = 0; index < options.exclude.length; index++) {
+          const element = options.exclude[index];
+          if (request.url.indexOf(element) > -1) {
+            flag = true;
+          }
+        }
+      }
       const ad = `${options.adapter ? options.adapter : "fetch"}Adapter`;
       adapter[ad](
-        request.headers.noSign ? request : signature(request, options),
+        flag || request.headers.noSign ? request : signature(request, options),
         responseCallback
       );
     } catch (error) {

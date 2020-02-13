@@ -45,14 +45,25 @@ gc_rsa({
 });
 ```
 
-## 特殊说明
+## 不执行校验
 
-在请求头里面加入noSign跳过签名用以避免未知错误
+方法1:在请求头里面加入noSign跳过签名用以避免未知错误
 
 ```json
   headers: {
     "noSign": true
   }
+```
+
+方法2:在配置中注入exclude
+
+```javascript
+gc_rsa({
+  appkey: "25396816",
+  appsecret: "ba09305bef13bf8c17ace9987c66326f",
+  exclude: ["unReadNum"] //排除路径
+});
+
 ```
 
 ## 参数说明
